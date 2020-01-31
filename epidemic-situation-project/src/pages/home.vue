@@ -166,9 +166,6 @@ import {
   getResistEpidemicSituation,
   getRumourData
 } from "../api";
-// require styles
-import "swiper/dist/css/swiper.css";
-import { swiper, swiperSlide } from "vue-awesome-swiper";
 export default {
   name: "home-wrapper",
   data() {
