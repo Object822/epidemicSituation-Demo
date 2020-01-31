@@ -1,5 +1,5 @@
 'use strict'
 module.exports = {
   NODE_ENV: '"production"',
-  API_ROOT: '"http://api.tianapi.com"'
+  API_ROOT: '"https://api.tianapi.com"'
 }
