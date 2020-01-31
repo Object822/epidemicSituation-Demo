@@ -112,7 +112,7 @@
               <div news-time>
                 <div>
                   <span>{{item.pubDateStr}}</span>
-                  <span>{{item.modifyTime | timeFilter}}</span>
+                  <span>{{item.pubDate | timeFilter}}</span>
                 </div>
                 <span news-circular></span>
                 <span news-line></span>
@@ -128,29 +128,67 @@
             </li>
           </ul>
         </van-tab>
-        <van-tab title="辟谣">内容</van-tab>
+        <van-tab title="谣言鉴别">
+          <div situation-map>
+            <h1>
+              <p map-title>
+                <i></i>
+                <span>谣言鉴别</span>
+              </p>
+              <p class="source">数据来源: 天行数据</p>
+            </h1>
+          </div>
+          <div rumour-wrapper v-for="(item, index) in rumourData" :key="index">
+            <div rumour-banner>
+              <van-tag mark type="warning">{{item.explain}}</van-tag>
+              <img :src="item.imgsrc" alt />
+            </div>
+            <h2>{{item.title}}</h2>
+            <p rumour-content>{{item.desc}}</p>
+            <p rumour-source>信息来源：{{item.author}} {{item.date}}</p>
+          </div>
+        </van-tab>
       </van-tabs>
+      <div style="text-align: center;margin: 20px 0;">
+        <van-tag plain type="warning">
+          本工具纯属个人练习,数据来源"天行数据",如有雷同纯属巧合!!!
+          <br />愿疫情尽快过去,众志成城,抗击疫情,祝大家身体健康,工作顺利!
+          <br />---直行的大螃蟹
+        </van-tag>
+      </div>
     </section>
   </div>
 </template>
 
 <script>
-import { getEpidemicSituation, getResistEpidemicSituation } from "../api";
+import {
+  getEpidemicSituation,
+  getResistEpidemicSituation,
+  getRumourData
+} from "../api";
+// require styles
+import "swiper/dist/css/swiper.css";
+import { swiper, swiperSlide } from "vue-awesome-swiper";
 export default {
   name: "home-wrapper",
   data() {
     return {
       active: 0,
       newsList: [],
+      newsData: [],
+      rumourData: [],
       descData: {},
       modifyTime: ""
     };
   },
-  components: {},
+  components: {
+    swiper,
+    swiperSlide
+  },
   created() {},
   filters: {
-    timeFilter (val) {
-      return new Date(val).format('MM-dd hh:ss')
+    timeFilter(val) {
+      return new Date(val).format("MM-dd hh:ss");
     }
   },
   methods: {
@@ -158,8 +196,18 @@ export default {
       const cityData = await getEpidemicSituation();
       if (cityData.code === 200) {
         let { newslist } = cityData;
-        console.log(newslist);
         this.newsList = newslist;
+      } else {
+        Toast.fail("请求失败");
+      }
+    },
+    async getRumourData() {
+      const rumourData = await getRumourData();
+      if (rumourData.code === 200) {
+        let { newslist } = rumourData;
+        this.rumourData = newslist;
+      } else {
+        Toast.fail("请求失败");
       }
     },
     async getResistData() {
@@ -171,16 +219,18 @@ export default {
         this.modifyTime = new Date(this.descData.modifyTime).format(
           "yyyy-MM-dd hh:ss"
         );
-        console.log(this.descData);
+      } else {
+        Toast.fail("请求失败");
       }
     },
-    openDetail (url) {
-      window.open(url)
+    openDetail(url) {
+      window.open(url);
     }
   },
   mounted() {
     this.getData();
     this.getResistData();
+    this.getRumourData();
   }
 };
 </script>
@@ -193,11 +243,17 @@ export default {
   line-height: 66px;
   font-size: 25px;
 }
-.van-tabs__content {
+.home-wrapper .van-tabs__content {
   margin-top: 25px;
   background: #fff;
   padding: 20px;
   box-sizing: border-box;
+}
+.home-wrapper .van-tag--mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 20px;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -207,9 +263,7 @@ export default {
   /* height: 100vh; */
   & [head] {
     width: 100%;
-    /* & [back-banner] {
-      height: 300px;
-    } */
+    background: #fedcbd;
     & [header-content] {
       background: url(../assets/images/banner.jpeg) no-repeat;
       background-size: 100%;
@@ -340,6 +394,9 @@ export default {
     }
     & .lists-content {
       height: 60px;
+      & td {
+        font-size: 18px;
+      }
     }
     & .lists-content:nth-child(2n-1) {
       background: #e6e6e6;
@@ -352,11 +409,12 @@ export default {
   & li {
     display: flex;
     flex-direction: row;
+    margin-bottom: 10px;
     & [news-time] {
       position: relative;
       display: flex;
       justify-content: space-between;
-      flex:0 0 180px; 
+      flex: 0 0 180px;
       margin-right: 15px;
       & div {
         display: flex;
@@ -367,7 +425,7 @@ export default {
         & span {
           font-size: 25px;
         }
-        & span:nth-child(2){
+        & span:nth-child(2) {
           color: #666;
         }
       }
@@ -390,6 +448,9 @@ export default {
       }
     }
     & [news-content] {
+      background: #f2eada;
+      padding: 10px;
+      border-radius: 15px;
       & h1 {
         margin: 0;
         font-size: 35px;
@@ -406,6 +467,32 @@ export default {
         color: #666;
       }
     }
+  }
+}
+[rumour-wrapper] {
+  border-radius: 10px;
+  box-shadow: 0 0 5px 5px #e6e6e6;
+  background: #fff;
+  padding: 10px;
+  margin-bottom: 20px;
+  & [rumour-banner] {
+    position: relative;
+    & img {
+      width: 100%;
+    }
+  }
+  & h2 {
+    font-size: 35px;
+    color: #4e72b8;
+    font-weight: 600;
+  }
+  & [rumour-content] {
+    font-size: 25px;
+  }
+  & [rumour-source] {
+    font-size: 20px;
+    color: #666;
+    text-align: right;
   }
 }
 </style>
