@@ -3,8 +3,9 @@
 函数的返回值: promise对象
  */
 import ajax from './ajax'
-// const BASE_URL = 'http://api.tianapi.com/txapi/ncovcity/index'
-const BASE_URL = '/api'
+// const BASE_URL = 'http://api.tianapi.com'
+const BASE_URL = process.env.API_ROOT
+// const BASE_URL = '/api'
 const key = '7695a5b7dfc1f80fabda9191bb5cda85'
 
 // 1、获取中国各地区的疫情情况
