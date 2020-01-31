@@ -149,7 +149,7 @@
           </div>
         </van-tab>
       </van-tabs>
-      <div style="text-align: center;margin: 20px 0;">
+      <div style="text-align: center;margin: 20px 0;" class="lastShow">
         <van-tag plain type="warning">
           本工具纯属个人练习,数据来源"天行数据",如有雷同纯属巧合!!!
           <br />愿疫情尽快过去,众志成城,抗击疫情,祝大家身体健康,工作顺利!
@@ -253,6 +253,9 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
+  font-size: 20px;
+}
+.home-wrapper .lastShow .van-tag--warning{
   font-size: 20px;
 }
 </style>
