@@ -179,8 +179,6 @@ export default {
     };
   },
   components: {
-    swiper,
-    swiperSlide
   },
   created() {},
   filters: {
@@ -441,8 +439,8 @@ export default {
       & [news-line] {
         position: absolute;
         width: 3px;
-        height: 999px;
-        right: 10px;
+        height: 9999px;
+        right: 8px;
         top: 35px;
         background: #e6e6e6;
       }
