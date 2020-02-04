@@ -31,22 +31,22 @@
               <li>
                 <van-icon name="star" color="#411445" />
                 <p>
-                  <span>传染源：</span>
-                  {{descData.infectSource}}
+                  <!-- <span>传染源：</span> -->
+                  {{descData.note2}}
                 </p>
               </li>
               <li>
                 <van-icon name="star" color="#45224a" />
                 <p>
-                  <span>病毒：</span>
-                  {{descData.virus}}
+                  <!-- <span>病毒：</span> -->
+                  {{descData.note1}}
                 </p>
               </li>
               <li>
                 <van-icon name="star" color="#472d56" />
                 <p>
-                  <span>传播途径：</span>
-                  {{descData.passWay}}
+                  <!-- <span>传播途径：</span> -->
+                  {{descData.note3}}
                 </p>
               </li>
               <li>
@@ -145,7 +145,8 @@
             </div>
             <h2>{{item.title}}</h2>
             <p rumour-content>{{item.desc}}</p>
-            <p rumour-source>信息来源：{{item.author}} {{item.date}}</p>
+            <p rumour-source>信息来源：{{item.author}}</p>
+            <p rumour-source>{{item.date}}</p>
           </div>
         </van-tab>
       </van-tabs>
